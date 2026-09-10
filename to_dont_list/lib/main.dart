@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:to_dont_list/objects/item.dart';
 import 'package:to_dont_list/widgets/to_do_items.dart';
 import 'package:to_dont_list/widgets/to_do_dialog.dart';
+import 'package:to_dont_list/widgets/to_do_deletecheck.dart';
+
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -43,6 +45,14 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
+  void _createDeleteMenu(Item item) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return ToDoDeleteCheck(item: item, onDeleteItem: _handleDeleteItem);
+        });
+  }
+
   void _handleNewItem(String itemText, TextEditingController textController) {
     setState(() {
       print("Adding new item");
@@ -65,7 +75,7 @@ class _ToDoListState extends State<ToDoList> {
               item: item,
               completed: _itemSet.contains(item),
               onListChanged: _handleListChanged,
-              onDeleteItem: _handleDeleteItem,
+              onDeleteItem: _createDeleteMenu,
             );
           }).toList(),
         ),
