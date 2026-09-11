@@ -24,8 +24,8 @@ void main() {
         home: Scaffold(
             body: ToDoListItem(
                 item: const Item(name: "test"),
-                completed: true,
-                onListChanged: (Item item, bool completed) {},
+                // completed: true,
+                onListChanged: (Item item) {},
                 onDeleteItem: (Item item) {}))));
     final textFinder = find.text('test');
 
@@ -40,8 +40,8 @@ void main() {
         home: Scaffold(
             body: ToDoListItem(
                 item: const Item(name: "test"),
-                completed: true,
-                onListChanged: (Item item, bool completed) {},
+                // completed: true,
+                onListChanged: (Item item) {},
                 onDeleteItem: (Item item) {}))));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
@@ -85,6 +85,21 @@ void main() {
 
     expect(listItemFinder, findsNWidgets(2));
   });
-
+  
   // One to test the tap and press actions on the items?
+
+  testWidgets('Holding on an item shows delete option', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    expect(find.byType(AlertDialog), findsNothing);
+
+    await tester.longPress(find.byType(ToDoListItem));
+    await tester.pump(); // Pump after every action to rebuild the widgets
+    expect(find.byType(AlertDialog), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key("OKButton")));
+    await tester.pump();
+    expect(find.byType(AlertDialog), findsNothing);
+
+  });
 }

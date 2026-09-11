@@ -17,7 +17,7 @@ class _ToDoListState extends State<ToDoList> {
   final List<Item> items = [const Item(name: "add more todos")];
   final _itemSet = <Item>{};
 
-  void _handleListChanged(Item item, bool completed) {
+  void _handleListChanged(Item item) {
     setState(() {
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
@@ -25,16 +25,16 @@ class _ToDoListState extends State<ToDoList> {
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
 
-      items.remove(item);
-      if (!completed) {
-        print("Completing");
-        _itemSet.add(item);
-        items.add(item);
-      } else {
-        print("Making Undone");
-        _itemSet.remove(item);
-        items.insert(0, item);
-      }
+      // items.remove(item);
+      // if (!completed) {
+      //   print("Completing");
+      //   _itemSet.add(item);
+      //   items.add(item);
+      // } else {
+      //   print("Making Undone");
+      //   _itemSet.remove(item);
+      //   items.insert(0, item);
+      // }
     });
   }
 
@@ -66,14 +66,14 @@ class _ToDoListState extends State<ToDoList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('To Do List'),
+          title: const Text('Notes'),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: items.map((item) {
             return ToDoListItem(
               item: item,
-              completed: _itemSet.contains(item),
+              // completed: _itemSet.contains(item),
               onListChanged: _handleListChanged,
               onDeleteItem: _createDeleteMenu,
             );
