@@ -4,7 +4,7 @@ import 'package:to_dont_list/objects/item.dart';
 import 'package:to_dont_list/widgets/to_do_items.dart';
 import 'package:to_dont_list/widgets/to_do_dialog.dart';
 import 'package:to_dont_list/widgets/to_do_deletecheck.dart';
-
+import 'package:to_dont_list/widgets/to_do_noteedit.dart';
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -15,9 +15,9 @@ class ToDoList extends StatefulWidget {
 
 class _ToDoListState extends State<ToDoList> {
   final List<Item> items = [const Item(name: "add more todos")];
-  final _itemSet = <Item>{};
+  // final _itemSet = <Item>{};
 
-  void _handleListChanged(Item item) {
+  void _handleListChanged(Item item, String newText, TextEditingController textController) {
     setState(() {
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
@@ -25,7 +25,7 @@ class _ToDoListState extends State<ToDoList> {
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
 
-      // items.remove(item);
+      items.remove(item);
       // if (!completed) {
       //   print("Completing");
       //   _itemSet.add(item);
@@ -35,7 +35,17 @@ class _ToDoListState extends State<ToDoList> {
       //   _itemSet.remove(item);
       //   items.insert(0, item);
       // }
+      items.add(Item(name: newText));
+      textController.clear();
     });
+  }
+
+  void _createEditMenu(Item item) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return ToDoNoteEdit(item: item, onListChanged: _handleListChanged);
+        });
   }
 
   void _handleDeleteItem(Item item) {
@@ -74,7 +84,7 @@ class _ToDoListState extends State<ToDoList> {
             return ToDoListItem(
               item: item,
               // completed: _itemSet.contains(item),
-              onListChanged: _handleListChanged,
+              onListChanged: _createEditMenu,
               onDeleteItem: _createDeleteMenu,
             );
           }).toList(),
