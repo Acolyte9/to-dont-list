@@ -100,6 +100,39 @@ void main() {
     await tester.tap(find.byKey(const Key("OKButton")));
     await tester.pump();
     expect(find.byType(AlertDialog), findsNothing);
+  });
 
+  testWidgets('Clicking on an item shows edit option', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    expect(find.byType(AlertDialog), findsNothing);
+
+    await tester.tap(find.byType(ToDoListItem));
+    await tester.pump(); // Pump after every action to rebuild the widgets
+    expect(find.byType(AlertDialog), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key("OKButton")));
+    await tester.pump();
+    expect(find.byType(AlertDialog), findsNothing);
+  });
+
+  testWidgets('Clicking on an item and editing it changes the text', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    expect(find.byType(AlertDialog), findsNothing);
+
+    await tester.tap(find.byType(ToDoListItem));
+    await tester.pump(); // Pump after every action to rebuild the widgets
+    expect(find.byType(AlertDialog), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'edited');
+    await tester.pump();
+    expect(find.text("edited"), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key("OKButton")));
+    await tester.pump();
+    expect(find.byType(AlertDialog), findsNothing);
+
+    expect(find.text("edited"), findsOneWidget);
   });
 }

@@ -1,2 +1,2 @@
 # to-dont-list
-A broken list of things to do
+(to-jazz-list) A list of editable notes
