@@ -20,13 +20,22 @@ class ToDoNoteEdit extends StatefulWidget {
 
 class _ToDoNoteEditState extends State<ToDoNoteEdit> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
-  final TextEditingController _inputController = TextEditingController();
+  // final TextEditingController _inputController = TextEditingController()..text = widget.item.name;
+  TextEditingController _inputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   String valueText = "";
+  @override
+  void initState() {
+    super.initState();
+    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    valueText = widget.item.name;
+    _inputController = TextEditingController(text: widget.item.name);
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +48,7 @@ class _ToDoNoteEditState extends State<ToDoNoteEdit> {
           });
         },
         controller: _inputController,
-        decoration: const InputDecoration(hintText: "f:{value}"),
+        decoration: const InputDecoration(hintText: "Empty. Press Cancel to restore text."),
       ),
       actions: <Widget>[
         ElevatedButton(

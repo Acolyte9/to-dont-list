@@ -35,7 +35,7 @@ class _ToDoListState extends State<ToDoList> {
       //   _itemSet.remove(item);
       //   items.insert(0, item);
       // }
-      items.add(Item(name: newText));
+      items.insert(0, Item(name: newText));
       textController.clear();
     });
   }
